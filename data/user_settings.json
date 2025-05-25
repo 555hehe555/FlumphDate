@@ -1,0 +1,10 @@
+{
+  "123456789": {
+    "daily_digest": true,
+    "sound": true,
+    "notify_lesson_start": true,
+    "notify_lesson_end": false,
+    "notify_weather": true,
+    "notify_cleanup": false
+  }
+}
