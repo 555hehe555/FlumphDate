@@ -1,10 +1,12 @@
 {
-  "123456789": {
-    "daily_digest": true,
-    "sound": true,
-    "notify_lesson_start": true,
-    "notify_lesson_end": false,
-    "notify_weather": true,
-    "notify_cleanup": false
+  "morning_digest": true,
+  "sound_enabled": true,
+  "lesson_end_notifications": true,
+  "1711789873": {
+    "morning_digest": true,
+    "morning_time": "06:00",
+    "notify_start": true,
+    "notify_end": true,
+    "sound": true
   }
 }
