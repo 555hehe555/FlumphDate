@@ -14,7 +14,9 @@ def load_json(filename: str):
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-WEATHER_API_KEY = "de72e8ee43448bdfbf0fac7046210d5a"
+
+WEATHER_API_KEY = "c6d273877e1d60f1c2bd0ebe53eff878"
+
 
 # Завантажити/зберегти налаштування
 def load_settings():
@@ -55,7 +57,10 @@ import aiohttp
 
 
 async def get_weather(lat: float, lon: float, api_key: str) -> dict:
-    url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=minutely,alerts&units=metric&appid={api_key}&lang=uk"
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={api_key}&lang=uk"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
             return await resp.json()
+
+
+

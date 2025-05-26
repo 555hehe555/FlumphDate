@@ -5,7 +5,7 @@ from aiogram.types import (
     ReplyKeyboardMarkup, KeyboardButton,
     InlineKeyboardMarkup, InlineKeyboardButton
 )
-from utils import load_json, save_settings, is_time_in_range, get_weekday_name, get_weather
+from utils import load_json, save_settings, is_time_in_range, get_weekday_name, get_weather, WEATHER_API_KEY
 from datetime import datetime
 
 # Дані
@@ -18,10 +18,11 @@ main_kb = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text='📅 Розклад на сьогодні'), KeyboardButton(text='📆 Час уроків')],
         [KeyboardButton(text='🎉 Свята'), KeyboardButton(text='⚙️ Налаштування')],
-        [KeyboardButton(text='🧹 Очистити чат')],
+        [KeyboardButton(text='🌤 Погода зараз'), KeyboardButton(text='🧹 Очистити чат')],
     ],
     resize_keyboard=True
 )
+
 
 # Типові налаштування користувача
 def default_user_conf():
@@ -71,6 +72,8 @@ def register_handlers(dp, bot, settings):
     dp.message.register(full_schedule, F.text == '📆 Час уроків')
     dp.message.register(today_holidays, F.text == '🎉 Свята')
     dp.message.register(clear_chat, F.text == '🧹 Очистити чат')
+    dp.message.register(current_weather, F.text == '🌤 Погода зараз')
+
 
 # /start
 async def start_cmd(message: Message):
@@ -142,3 +145,23 @@ async def clear_chat(message: Message):
             pass
         last_msg_id -= 1
     await message.answer("Чат очищено!", reply_markup=main_kb)
+
+
+async def current_weather(message: Message):
+    lat, lon = 50.45, 30.52  # Київ
+    try:
+        weather = await get_weather(lat, lon, WEATHER_API_KEY)
+        if weather.get("cod") != 200:
+            raise Exception("Weather API error")
+
+        desc = weather['weather'][0]['description'].capitalize()
+        temp = weather['main']['temp']
+        feels_like = weather['main']['feels_like']
+        wind = weather['wind']['speed']
+        text = (
+            f"<b>Погода зараз у шепетівкці:</b>\n"
+            f"{desc}\nТемпература: {temp}°C\nВідчувається як: {feels_like}°C\nВітер: {wind} м/с"
+        )
+    except Exception as e:
+        text = f"Не вдалося отримати погоду 😢 бо {str(e)}"
+    await message.answer(text)

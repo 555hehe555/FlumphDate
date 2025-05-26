@@ -8,7 +8,7 @@ from handlers import register_handlers
 from scheduler import Scheduler
 
 API_TOKEN = "6575633968:AAG1Ws6-MtOlMUR-S9Y3JbP6jvHzC8OIIN4"
-WEATHER_API_KEY = "de72e8ee43448bdfbf0fac7046210d5a"
+WEATHER_API_KEY = "c6d273877e1d60f1c2bd0ebe53eff878"
 
 logging.basicConfig(level=logging.INFO)
 
